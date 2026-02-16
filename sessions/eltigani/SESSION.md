@@ -180,6 +180,46 @@
 **Commits Git:**
 - `238466a` (Grass-to-wheat fix)
 
+### 2026-02-16T23:50 - Prompt #7 (Tile Rendering & Cherry Visibility)
+**Contexte:** Correction des tuiles affichant blanc/vide et cerises invisibles. L'herbe doit être verte sur tous les carreaux non enfermés, et les cerises doivent être visibles partout.
+
+**Problèmes corrigés:**
+- ❌ Tuiles blanches/vides au lieu de texture herbe
+- ❌ Cerises invisibles sur les tuiles
+- ❌ Chemin d'échappement remplaçant la texture
+- ❌ Tuiles accessibles sans texture
+
+**Améliorations réalisées:**
+- ✅ Herbe verte texture sur TOUS les carreaux d'herbe non enfermés
+- ✅ Herbe enfermée → texture blé doré (#D4AF37)
+- ✅ Chemin d'échappement: gradient COUCHE sur texture (pas remplacement)
+- ✅ Tuiles accessibles: overlay vert COUCHE sur texture
+- ✅ Tuiles eau: texture bleue toujours visible
+- ✅ Tuiles portail: texture violette toujours visible
+- ✅ Tuiles portes: texture bois toujours visible
+- ✅ Cerises: affichées sur tous les carreaux cerise
+- ✅ Cerises visibles même avec overlays (zIndex: 9)
+
+**Implémentation technique:**
+- Textures TOUJOURS incluses (pas de strings vides)
+- Couches de background multi-couches pour overlays:
+  * `gradient, url(texture)` pour couches combinées
+  * backgroundSize correct pour chaque couche
+- Emoji cerises avec zIndex: 9 (au-dessus du texture, sous le cheval)
+- Ajout gestion des couleurs water et portal dans getTileStyle
+- Removed opacity change qui cachait les textures
+
+**Résultat visuel:**
+- Texture herbe verte visible partout
+- Texture blé doré visible sur herbes enfermées
+- Chemin d'échappement brille OVER herbe verte
+- Tuiles accessibles overlay OVER herbe
+- Cerises clairement visibles (rouge sur vert/doré)
+- Appearance professionnelle et polie
+
+**Commits Git:**
+- `7bed08b` (Tile rendering & cherry fixes)
+
 ## État Actuel
 - **Fonctionnalités complétées:**
   - ✅ Spécification complète rédigée
