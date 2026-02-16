@@ -4,6 +4,7 @@ import Tile from './Tile';
 import { isHorseEnclosed, getEnclosedTiles } from 'src/utils/validation';
 import { calculateScore } from 'src/utils/scoring';
 import { getAccessibleTiles } from 'src/utils/pathfinding';
+import { useHorseEscape } from 'src/hooks/useHorseEscape';
 import { TILE_SIZE_PX } from 'src/utils/constants';
 
 interface GameBoardProps {
@@ -20,7 +21,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
   const [placedGates, setPlacedGates] = useState<Set<string>>(
     new Set()
   );
-  const [hoveredPos, setHoveredPos] = useState<Position | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
@@ -45,6 +45,12 @@ const GameBoard: React.FC<GameBoardProps> = ({
     gridWithGates,
     level.horsePosition
   );
+
+  const { escapePath, isHoveredOnHorse, handleHorseHover } =
+    useHorseEscape({
+      grid: gridWithGates,
+      horsePosition: level.horsePosition,
+    });
 
   const handleTileClick = (x: number, y: number) => {
     if (submitted) return;
@@ -74,9 +80,6 @@ const GameBoard: React.FC<GameBoardProps> = ({
     setScore(points);
     setSubmitted(true);
   };
-
-  const gridWidth = level.width * TILE_SIZE_PX;
-  const gridHeight = level.height * TILE_SIZE_PX;
 
   if (submitted) {
     return (
@@ -128,6 +131,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               y === level.horsePosition.y;
             const isGate = placedGates.has(key);
             const isAccessible = accessibleTiles.has(key);
+            const isEscapePath = escapePath.has(key);
 
             return (
               <Tile
@@ -136,13 +140,14 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 position={{ x, y }}
                 isHorse={isHorse}
                 isGate={isGate}
-                isAccessible={isAccessible}
+                isAccessible={isAccessible && !isEscapePath}
+                isEscapePath={isEscapePath && isHoveredOnHorse}
                 onClick={() => handleTileClick(x, y)}
-                onHover={(hovering) =>
-                  hovering
-                    ? setHoveredPos({ x, y })
-                    : setHoveredPos(null)
-                }
+                onHover={(hovering) => {
+                  if (isHorse) {
+                    handleHorseHover(hovering);
+                  }
+                }}
               />
             );
           })
@@ -177,6 +182,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
           <p className="text-lg font-semibold text-purple-600">
             {enclosedTiles.length}
           </p>
+        </div>
+
+        <div className="border-t pt-3 bg-blue-50 p-3 rounded text-xs text-gray-700">
+          <p className="font-semibold mb-2">💡 Tip:</p>
+          <p>Hover over the horse 🐴 to see the escape path (green tiles)</p>
         </div>
 
         <button

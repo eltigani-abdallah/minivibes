@@ -8,6 +8,7 @@ interface TileProps {
   isHorse: boolean;
   isGate: boolean;
   isAccessible: boolean;
+  isEscapePath: boolean;
   onClick: () => void;
   onHover: (hovering: boolean) => void;
 }
@@ -15,10 +16,12 @@ interface TileProps {
 const getTileBackgroundColor = (
   type: TileType,
   isGate: boolean,
-  isAccessible: boolean
+  isAccessible: boolean,
+  isEscapePath: boolean
 ): string => {
+  if (isEscapePath) return '#90EE90'; // bright green for escape path
   if (isGate) return '#654321'; // gate color
-  if (isAccessible) return '#d4f4dd'; // path overlay
+  if (isAccessible) return '#d4f4dd'; // light green overlay
 
   switch (type) {
     case 'grass':
@@ -36,8 +39,7 @@ const getTileBackgroundColor = (
 
 const getTileContent = (
   type: TileType,
-  isHorse: boolean,
-  portalColor?: string
+  isHorse: boolean
 ): React.ReactNode => {
   if (isHorse) return '🐴';
 
@@ -47,9 +49,7 @@ const getTileContent = (
     case 'cherry':
       return '🍒';
     case 'portal':
-      return portalColor
-        ? `⭕`
-        : '🌀';
+      return '⭕';
     default:
       return '';
   }
@@ -61,13 +61,15 @@ const Tile: React.FC<TileProps> = ({
   isHorse,
   isGate,
   isAccessible,
+  isEscapePath,
   onClick,
   onHover,
 }) => {
   const bgColor = getTileBackgroundColor(
     type,
     isGate,
-    isAccessible
+    isAccessible,
+    isEscapePath
   );
   const content = getTileContent(type, isHorse);
 
@@ -85,8 +87,13 @@ const Tile: React.FC<TileProps> = ({
         fontSize: '24px',
         fontWeight: 'bold',
         transition: 'all 0.15s ease',
-        opacity: isAccessible && !isHorse ? 0.7 : 1,
-        boxShadow: isHorse ? '0 0 8px rgba(0,0,0,0.3)' : 'none',
+        opacity: isAccessible || isEscapePath ? 0.85 : 1,
+        boxShadow:
+          isHorse && isEscapePath
+            ? '0 0 8px rgba(144, 238, 144, 0.8)'
+            : isHorse
+              ? '0 0 8px rgba(0,0,0,0.3)'
+              : 'none',
       }}
       onClick={onClick}
       onMouseEnter={() => onHover(true)}
