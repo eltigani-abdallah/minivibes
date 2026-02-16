@@ -146,6 +146,40 @@
 **Commits Git:**
 - `9e3a841` (Textures et rebalance)
 
+### 2026-02-16T23:43 - Prompt #6 (Grass-to-Wheat Visualization Fix)
+**Contexte:** Correction de la mécanique de visualisation - l'herbe doit rester verte jusqu'à l'enclosure complète, puis se transformer en blé UNIQUEMENT dans les zones enfermées. Les cerises ne doivent pas être converties.
+
+**Problèmes corrigés:**
+- ❌ Herbe affichée en blanc (bug de tuiles mal teintées)
+- ❌ Zones inaccessibles devenant vertes (logique inversée)
+- ❌ Cerises converties incorrectement en herbe
+
+**Améliorations réalisées:**
+- ✅ Créé generateWheatTexture() avec couleur dorée (#D4AF37)
+- ✅ Texture blé procédurale avec tiges et têtes
+- ✅ Ajout de prop isEnclosed au composant Tile
+- ✅ Logique correcte: if (isEnclosed && type === 'grass') → blé
+- ✅ Cerises enfermées: restent cerises (non converties)
+- ✅ Eau enfermée: reste bleue (non convertie)
+- ✅ Comportement avant enclosure:
+  - Toutes les tuiles affichent leur type original
+  - Herbe = vert, eau = bleu, cerises = rouge avec feuille
+- ✅ Comportement après enclosure:
+  - Herbe enfermée → blé doré
+  - Cerises enfermées → cerises rouges (inchangées)
+  - Eau enfermée → eau bleue (inchangée)
+  - Portes restent portes (inchangées)
+
+**Résultat:**
+- ✅ Visualisation correcte de l'enclosure
+- ✅ Feedback visuel clair: champ de blé doré vs herbe verte
+- ✅ Cerises clairement visibles comme entités distinctes
+- ✅ Tous les tests passent (21/21)
+- ✅ Interface de jeu correcte et professionnelle
+
+**Commits Git:**
+- `238466a` (Grass-to-wheat fix)
+
 ## État Actuel
 - **Fonctionnalités complétées:**
   - ✅ Spécification complète rédigée
