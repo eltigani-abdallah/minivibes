@@ -30,21 +30,30 @@ const getTileStyle = (
 
   if (isEscapePath) {
     bgColor = '#90EE90';
-    bgImage = `linear-gradient(135deg, rgba(144, 238, 144, 0.9) 0%, rgba(124, 205, 124, 0.9) 100%)`;
+    bgImage = `linear-gradient(135deg, rgba(144, 238, 144, 0.6) 0%, rgba(124, 205, 124, 0.6) 100%), url('${textureDataURL}')`;
     boxShadow = 'inset 0 1px 3px rgba(255,255,255,0.5), 0 0 12px rgba(144,238,144,0.8)';
+    backgroundSize = 'auto, 64px 64px';
   } else if (isGate) {
     bgColor = '#654321';
     bgImage = `url('${textureDataURL}')`;
     boxShadow = 'inset 0 2px 4px rgba(255,255,255,0.3), 0 3px 6px rgba(0,0,0,0.4)';
   } else if (isAccessible) {
     bgColor = '#d4f4dd';
-    bgImage = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 70%)`;
+    bgImage = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 70%), url('${textureDataURL}')`;
     boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.3), 0 1px 2px rgba(0,0,0,0.05)';
+    backgroundSize = 'auto, 64px 64px';
   } else if (isEnclosed && type === 'grass') {
-    // Grass that's inside enclosure becomes wheat
     bgColor = '#D4AF37';
     bgImage = `url('${textureDataURL}')`;
     boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.1)';
+  } else if (type === 'water') {
+    bgColor = '#3A7BC8';
+    bgImage = `url('${textureDataURL}')`;
+    boxShadow = 'inset 0 2px 4px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2)';
+  } else if (type === 'portal') {
+    bgColor = '#C847FF';
+    bgImage = `url('${textureDataURL}')`;
+    boxShadow = 'inset 0 1px 3px rgba(255,255,255,0.3), 0 0 6px rgba(201,94,255,0.6)';
   }
 
   return {
@@ -62,7 +71,7 @@ const getTileStyle = (
     fontSize: '24px',
     fontWeight: 'bold',
     transition: 'all 0.12s cubic-bezier(0.4, 0, 0.2, 1)',
-    opacity: isAccessible || isEscapePath ? 0.9 : 1,
+    opacity: 1,
     boxShadow,
     position: 'relative',
   };
@@ -80,20 +89,16 @@ const Tile: React.FC<TileProps> = ({
   onHover,
 }) => {
   const textureDataURL = useMemo(() => {
-    if (isEscapePath || isAccessible) return '';
-    
     if (isGate) {
       return getTextureDataURL('gate');
     }
     
-    // If enclosed and grass, show wheat texture
     if (isEnclosed && type === 'grass') {
       return getTextureDataURL('wheat');
     }
     
-    // Otherwise use normal tile texture
     return getTextureDataURL(type);
-  }, [type, isGate, isEscapePath, isAccessible, isEnclosed]);
+  }, [type, isGate, isEnclosed]);
 
   const style = getTileStyle(type, isGate, isAccessible, isEscapePath, isEnclosed, textureDataURL);
 
@@ -115,6 +120,16 @@ const Tile: React.FC<TileProps> = ({
           }}
         >
           🐴
+        </span>
+      )}
+      {type === 'cherry' && !isHorse && (
+        <span
+          style={{
+            fontSize: '28px',
+            zIndex: 9,
+          }}
+        >
+          🍒
         </span>
       )}
     </div>
