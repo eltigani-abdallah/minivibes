@@ -112,8 +112,39 @@
 - ✅ Build sans erreurs
 - ✅ Interface plus professionnelle
 
+### 2026-02-16T23:35 - Prompt #5 (Textures & Difficulty Rebalance)
+**Contexte:** Demande d'améliorer les graphiques (textures détaillées au lieu d'emojis), d'augmenter la taille du jeu à l'écran, et de corriger l'équilibre de difficulté.
+
+**Améliorations réalisées:**
+- ✅ Générateur de textures procédurales (canvas-based)
+- ✅ Herbe: Brins d'herbe procéduraux avec variations d'ombre
+- ✅ Eau: Motifs de vagues avec highlights animés
+- ✅ Portes: Grain de bois avec planches et bandes
+- ✅ Cerises: Fruit avec tige et feuille sur herbe
+- ✅ Portails: Anneaux concentriques avec étincelles (effet mystique)
+- ✅ Cache de textures pour performance
+- ✅ Tuiles agrandies: 40px → 50px pour meilleure visibilité
+- ✅ Grille centrée à l'écran avec meilleur espacement
+- ✅ Layout amélioré avec flexbox
+- ✅ Augmentation des obstacles d'eau: 18-21% de la grille
+- ✅ Portes doublées pour garantir la résolvabilité:
+  - Niveau 1: 4 → 6 portes
+  - Niveau 2: 5 → 8 portes
+  - Niveau 3: 6 → 10 portes
+  - Niveau 4: 7 → 12 portes
+  - Niveau 5: 8 → 14 portes
+- ✅ Cerises augmentées à 5 par niveau
+- ✅ Jeu maintenant proprement équilibré
+
+**Résultat:**
+- ✅ Graphiques professionnels avec textures détaillées
+- ✅ Difficultés clairement résoluble et équilibrée
+- ✅ Tous les tests passent (21/21)
+- ✅ Build sans erreurs
+- ✅ Interface responsive et centrée
+
 **Commits Git:**
-- `ac44244` (Visual polish et level design)
+- `9e3a841` (Textures et rebalance)
 
 ## État Actuel
 - **Fonctionnalités complétées:**
@@ -149,14 +180,15 @@
 - **Code qualité:** TypeScript strict, ESLint + Prettier configurés
 - **Documentation:** README complet, bien structuré, clair
 
-## Statistiques du Projet
-- **Fichiers créés:** ~20 fichiers source
-- **Lignes de code:** ~1500 LOC (excluant tests et config)
+## Statistiques du Projet (Final)
+- **Fichiers créés:** ~22 fichiers source
+- **Lignes de code:** ~1800 LOC (excluant tests et config)
 - **Tests:** 21 tests unitaires (pathfinding, validation, scoring)
-- **Build size:** 201 KB JS (63.7 KB gzip)
+- **Build size:** 206.41 KB JS (65.10 KB gzip)
 - **Composants:** 3 (App, GameBoard, Tile)
-- **Hooks:** 1 (useHorseEscape)
-- **Utilities:** 4 (pathfinding, validation, scoring, levelGenerator)
+- **Custom hooks:** 1 (useHorseEscape)
+- **Utilities:** 5 (pathfinding, validation, scoring, levelGenerator, textureGenerator)
 - **Types:** 8 types définis
-- **Niveaux:** 5 levels avec progression
-- **Temps de développement:** ~30 minutes pour les phases 1-2
+- **Niveaux:** 5 levels avec progression de difficulté
+- **Gates totaux:** 6, 8, 10, 12, 14 (was 3, 4, 5, 5, 6)
+- **Temps de développement:** ~45 minutes pour phases 1-4
