@@ -16,17 +16,15 @@ const createEmptyGrid = (width: number, height: number): Grid => {
 const placeWater = (grid: Grid, numWater: number): void => {
   const width = grid[0].length;
   const height = grid.length;
+  let placed = 0;
 
-  for (let i = 0; i < numWater; i++) {
-    let placed = false;
-    while (!placed) {
-      const x = Math.floor(Math.random() * width);
-      const y = Math.floor(Math.random() * height);
+  while (placed < numWater) {
+    const x = Math.floor(Math.random() * width);
+    const y = Math.floor(Math.random() * height);
 
-      if (grid[y][x].type === 'grass') {
-        grid[y][x] = { type: 'water' };
-        placed = true;
-      }
+    if (grid[y][x].type === 'grass') {
+      grid[y][x] = { type: 'water' };
+      placed++;
     }
   }
 };
@@ -34,17 +32,15 @@ const placeWater = (grid: Grid, numWater: number): void => {
 const placeCherries = (grid: Grid, numCherries: number): void => {
   const width = grid[0].length;
   const height = grid.length;
+  let placed = 0;
 
-  for (let i = 0; i < numCherries; i++) {
-    let placed = false;
-    while (!placed) {
-      const x = Math.floor(Math.random() * width);
-      const y = Math.floor(Math.random() * height);
+  while (placed < numCherries) {
+    const x = Math.floor(Math.random() * width);
+    const y = Math.floor(Math.random() * height);
 
-      if (grid[y][x].type === 'grass') {
-        grid[y][x] = { type: 'cherry' };
-        placed = true;
-      }
+    if (grid[y][x].type === 'grass') {
+      grid[y][x] = { type: 'cherry' };
+      placed++;
     }
   }
 };
@@ -59,7 +55,6 @@ const placePortals = (
   for (let i = 0; i < numPortalPairs; i++) {
     const color = PORTAL_COLORS[i % PORTAL_COLORS.length];
 
-    // Place first portal
     let placed1 = false;
     while (!placed1) {
       const x = Math.floor(Math.random() * width);
@@ -74,7 +69,6 @@ const placePortals = (
       }
     }
 
-    // Place second portal
     let placed2 = false;
     while (!placed2) {
       const x = Math.floor(Math.random() * width);
@@ -105,7 +99,6 @@ const placeHorse = (grid: Grid): Position => {
     }
   }
 
-  // Fallback
   return { x: Math.floor(width / 2), y: Math.floor(height / 2) };
 };
 
@@ -113,8 +106,10 @@ export const generateLevel = (levelNumber: number): GameLevel => {
   const config = LEVEL_CONFIGS[levelNumber - 1] || LEVEL_CONFIGS[0];
 
   const grid = createEmptyGrid(config.width, config.height);
-  const numWater = Math.floor(config.width * config.height * 0.1);
-  const numCherries = Math.min(levelNumber + 1, 4);
+  
+  // Increased water obstacles for more challenging levels
+  const numWater = Math.ceil(config.width * config.height * (0.12 + levelNumber * 0.02));
+  const numCherries = Math.min(levelNumber + 1, 5);
   const numPortalPairs = levelNumber > 3 ? Math.floor(levelNumber / 2) : 0;
 
   placeWater(grid, numWater);

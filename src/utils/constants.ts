@@ -9,31 +9,31 @@ export const LEVEL_CONFIGS = [
     levelNumber: 1,
     width: 6,
     height: 6,
-    maxGates: 3,
+    maxGates: 4,
   },
   {
     levelNumber: 2,
     width: 8,
     height: 8,
-    maxGates: 4,
+    maxGates: 5,
   },
   {
     levelNumber: 3,
     width: 8,
     height: 8,
-    maxGates: 5,
+    maxGates: 6,
   },
   {
     levelNumber: 4,
     width: 10,
     height: 10,
-    maxGates: 5,
+    maxGates: 7,
   },
   {
     levelNumber: 5,
     width: 10,
     height: 10,
-    maxGates: 6,
+    maxGates: 8,
   },
 ];
 
