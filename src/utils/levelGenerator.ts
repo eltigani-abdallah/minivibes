@@ -107,8 +107,8 @@ export const generateLevel = (levelNumber: number): GameLevel => {
 
   const grid = createEmptyGrid(config.width, config.height);
   
-  // Increased water obstacles for more challenging levels
-  const numWater = Math.ceil(config.width * config.height * (0.12 + levelNumber * 0.02));
+  // Significantly increased water obstacles for balanced difficulty
+  const numWater = Math.ceil(config.width * config.height * (0.18 + levelNumber * 0.03));
   const numCherries = Math.min(levelNumber + 1, 5);
   const numPortalPairs = levelNumber > 3 ? Math.floor(levelNumber / 2) : 0;
 

@@ -83,7 +83,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center justify-center gap-6">
         <div className="bg-white rounded-xl shadow-2xl p-12 text-center max-w-md">
           <div className="text-6xl mb-4">🎉</div>
           <h2 className="text-4xl font-bold text-green-600 mb-2">
@@ -111,126 +111,128 @@ const GameBoard: React.FC<GameBoardProps> = ({
   }
 
   return (
-    <div className="flex gap-8 max-w-7xl">
-      {/* Grid Container */}
-      <div className="flex-shrink-0">
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: `repeat(${level.width}, ${TILE_SIZE_PX}px)`,
-            gap: 0,
-            padding: '12px',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            borderRadius: '12px',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255,255,255,0.1)',
-            border: '2px solid rgba(255,255,255,0.1)',
-          }}
-        >
-          {level.tiles.map((row, y) =>
-            row.map((tile, x) => {
-              const key = `${x},${y}`;
-              const isHorse =
-                x === level.horsePosition.x &&
-                y === level.horsePosition.y;
-              const isGate = placedGates.has(key);
-              const isAccessible = accessibleTiles.has(key);
-              const isEscapePath = escapePath.has(key);
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="flex gap-12 items-center">
+        {/* Grid Container - Centered and Large */}
+        <div className="flex-shrink-0">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${level.width}, ${TILE_SIZE_PX}px)`,
+              gap: 0,
+              padding: '16px',
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              borderRadius: '12px',
+              boxShadow: '0 20px 40px -5px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255,255,255,0.1)',
+              border: '3px solid rgba(139, 92, 246, 0.3)',
+            }}
+          >
+            {level.tiles.map((row, y) =>
+              row.map((tile, x) => {
+                const key = `${x},${y}`;
+                const isHorse =
+                  x === level.horsePosition.x &&
+                  y === level.horsePosition.y;
+                const isGate = placedGates.has(key);
+                const isAccessible = accessibleTiles.has(key);
+                const isEscapePath = escapePath.has(key);
 
-              return (
-                <Tile
-                  key={key}
-                  type={tile.type}
-                  position={{ x, y }}
-                  isHorse={isHorse}
-                  isGate={isGate}
-                  isAccessible={isAccessible && !isEscapePath}
-                  isEscapePath={isEscapePath && isHoveredOnHorse}
-                  onClick={() => handleTileClick(x, y)}
-                  onHover={(hovering) => {
-                    if (isHorse) {
-                      handleHorseHover(hovering);
-                    }
-                  }}
-                />
-              );
-            })
-          )}
-        </div>
-      </div>
-
-      {/* Control Panel */}
-      <div className="flex flex-col gap-6 bg-gradient-to-br from-white to-gray-50 p-8 rounded-xl shadow-2xl min-w-[320px] border border-gray-200">
-        <div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">
-            Level {level.levelNumber}
-          </h3>
-          <p className="text-sm text-gray-600">
-            {level.width}×{level.height} grid
-          </p>
-        </div>
-
-        <div className="border-t-2 border-gray-200 pt-4">
-          <p className="text-sm text-gray-600 font-semibold mb-2">
-            GATES REMAINING
-          </p>
-          <div className="flex items-center gap-3">
-            <div className="text-5xl font-bold text-blue-600">
-              {level.maxGates - placedGates.size}
-            </div>
-            <div className="text-sm text-gray-600">
-              / {level.maxGates}
-            </div>
+                return (
+                  <Tile
+                    key={key}
+                    type={tile.type}
+                    position={{ x, y }}
+                    isHorse={isHorse}
+                    isGate={isGate}
+                    isAccessible={isAccessible && !isEscapePath}
+                    isEscapePath={isEscapePath && isHoveredOnHorse}
+                    onClick={() => handleTileClick(x, y)}
+                    onHover={(hovering) => {
+                      if (isHorse) {
+                        handleHorseHover(hovering);
+                      }
+                    }}
+                  />
+                );
+              })
+            )}
           </div>
         </div>
 
-        <div className="border-t-2 border-gray-200 pt-4">
-          <p className="text-sm text-gray-600 font-semibold mb-3">
-            ENCLOSURE STATUS
-          </p>
-          <div
-            className={`px-4 py-3 rounded-lg font-bold text-center transition-all ${
+        {/* Control Panel */}
+        <div className="flex flex-col gap-6 bg-gradient-to-br from-white to-gray-50 p-8 rounded-xl shadow-2xl w-80 border border-gray-200">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              Level {level.levelNumber}
+            </h3>
+            <p className="text-sm text-gray-600">
+              {level.width}×{level.height} grid
+            </p>
+          </div>
+
+          <div className="border-t-2 border-gray-200 pt-4">
+            <p className="text-sm text-gray-600 font-semibold mb-2">
+              GATES REMAINING
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="text-5xl font-bold text-blue-600">
+                {level.maxGates - placedGates.size}
+              </div>
+              <div className="text-sm text-gray-600">
+                / {level.maxGates}
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t-2 border-gray-200 pt-4">
+            <p className="text-sm text-gray-600 font-semibold mb-3">
+              ENCLOSURE STATUS
+            </p>
+            <div
+              className={`px-4 py-3 rounded-lg font-bold text-center transition-all ${
+                enclosed
+                  ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border-2 border-green-400'
+                  : 'bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border-2 border-orange-400'
+              }`}
+            >
+              {enclosed ? '✓ ENCLOSED' : '⊗ NOT ENCLOSED'}
+            </div>
+          </div>
+
+          <div className="border-t-2 border-gray-200 pt-4">
+            <p className="text-sm text-gray-600 font-semibold mb-2">
+              ENCLOSED TILES
+            </p>
+            <p className="text-4xl font-bold text-purple-600">
+              {enclosedTiles.length}
+            </p>
+          </div>
+
+          <div className="border-t-2 border-gray-200 pt-4 bg-blue-50 -mx-8 -mb-8 px-8 py-4 rounded-b-xl">
+            <p className="font-semibold text-blue-900 mb-2">💡 TIP</p>
+            <p className="text-sm text-blue-800">
+              Hover over 🐴 to see where it can escape
+            </p>
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            disabled={!enclosed}
+            className={`px-6 py-4 rounded-lg font-bold transition-all mt-6 ${
               enclosed
-                ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border-2 border-green-400'
-                : 'bg-gradient-to-r from-orange-100 to-amber-100 text-orange-800 border-2 border-orange-400'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl cursor-pointer'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
-            {enclosed ? '✓ ENCLOSED' : '⊗ NOT ENCLOSED'}
-          </div>
+            {enclosed ? '✓ SUBMIT SOLUTION' : '⊗ ENCLOSE THE HORSE'}
+          </button>
+          <button
+            onClick={onResetLevel}
+            className="px-6 py-3 rounded-lg font-bold bg-gray-200 text-gray-800 hover:bg-gray-300 transition-all"
+          >
+            Reset Level
+          </button>
         </div>
-
-        <div className="border-t-2 border-gray-200 pt-4">
-          <p className="text-sm text-gray-600 font-semibold mb-2">
-            ENCLOSED TILES
-          </p>
-          <p className="text-4xl font-bold text-purple-600">
-            {enclosedTiles.length}
-          </p>
-        </div>
-
-        <div className="border-t-2 border-gray-200 pt-4 bg-blue-50 -mx-8 -mb-8 px-8 py-4 rounded-b-xl">
-          <p className="font-semibold text-blue-900 mb-2">💡 TIP</p>
-          <p className="text-sm text-blue-800">
-            Hover over 🐴 to see where it can escape
-          </p>
-        </div>
-
-        <button
-          onClick={handleSubmit}
-          disabled={!enclosed}
-          className={`px-6 py-4 rounded-lg font-bold transition-all mt-6 ${
-            enclosed
-              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl cursor-pointer'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          {enclosed ? '✓ SUBMIT SOLUTION' : '⊗ ENCLOSE THE HORSE'}
-        </button>
-        <button
-          onClick={onResetLevel}
-          className="px-6 py-3 rounded-lg font-bold bg-gray-200 text-gray-800 hover:bg-gray-300 transition-all"
-        >
-          Reset Level
-        </button>
       </div>
     </div>
   );
