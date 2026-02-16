@@ -1,73 +1,115 @@
-# React + TypeScript + Vite
+# 🐴 Enclose.Horse
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser-based puzzle game where you strategically place gates to enclose a horse within a grid.
 
-Currently, two official plugins are available:
+## 🎮 Game Objective
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Prevent the horse from escaping by strategically placing gates around it. Once enclosed, the grass inside your enclosure becomes wheat, allowing you to submit your solution for points.
 
-## React Compiler
+### Scoring System
+- **1 point** per grass tile enclosed
+- **10 bonus points** per cherry enclosed
+- More enclosed tiles = higher score
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎯 Game Mechanics
 
-## Expanding the ESLint configuration
+### Tile Types
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Tile | Symbol | Description |
+|------|--------|-------------|
+| **Grass** | 🌱 | Horse can walk. Place gates here. |
+| **Water** | 💧 | Horse cannot walk. Natural barrier. |
+| **Cherry** | 🍒 | Horse can walk. +10 bonus points if enclosed. |
+| **Portal** | ⭕ | Horse teleports to paired portal of same color. |
+| **Gate** | 🚪 | Blocks horse movement. Limited quantity per level. |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Horse Movement
+- Moves on a **4-adjacent grid** (up, down, left, right)
+- **NO diagonal movement**
+- Can walk on: grass, cherry, portal
+- Cannot walk on: water, gates
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Enclosure Rules
+The horse is enclosed when:
+- It **cannot reach the grid border** (all escape routes blocked)
+- Blocked by: water, gates, or the grid edge
+- Portal pairs must not provide escape routes
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🎮 How to Play
+
+1. **Observe** the current grid layout
+2. **Hover over the horse** 🐴 to see all tiles it can reach (green highlight)
+3. **Click on grass tiles** to place gates (limited quantity per level)
+4. **Click on placed gates** to remove them and get the gate back
+5. **Monitor status** - "Horse Enclosed" will show when you've succeeded
+6. **Click "Submit Solution"** to confirm and receive your score
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm run test
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The game will be available at `http://localhost:5173`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🧪 Testing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run test         # Run all tests (21 passing)
+npm run test -- --watch  # Watch mode
+npm run test:ui      # UI dashboard
 ```
+
+## 🔧 Features
+
+✅ **Fully playable game** in the browser  
+✅ **5 progressive levels** with increasing difficulty  
+✅ **Real-time path visualization** - hover to see escape routes  
+✅ **Proper enclosure detection** with portal handling  
+✅ **Responsive UI** with Tailwind CSS  
+✅ **21 comprehensive unit tests** - all passing  
+✅ **Clean, typed codebase** with TypeScript  
+
+## 📁 Project Structure
+
+```
+src/
+├── components/  # React UI components
+├── hooks/       # Custom React hooks
+├── types/       # TypeScript type definitions
+├── utils/       # Game logic (pathfinding, validation, scoring)
+└── styles/      # Tailwind CSS
+```
+
+## 🛠️ Tech Stack
+
+- **React 19** + TypeScript
+- **Vite** for fast builds
+- **Tailwind CSS** for styling
+- **Vitest** for unit tests
+
+---
+
+**Enjoy the puzzle! 🎮**
