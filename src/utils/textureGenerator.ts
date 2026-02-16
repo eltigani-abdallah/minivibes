@@ -31,6 +31,52 @@ export const generateGrassTexture = (): string => {
   return canvas.toDataURL();
 };
 
+export const generateWheatTexture = (): string => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 64;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d')!;
+
+  // Base color - golden
+  ctx.fillStyle = '#D4AF37';
+  ctx.fillRect(0, 0, 64, 64);
+
+  // Add wheat stalks
+  for (let i = 0; i < 50; i++) {
+    const x = Math.random() * 64;
+    const y = Math.random() * 64;
+    const height = Math.random() * 12 + 8;
+
+    ctx.strokeStyle = `rgba(${Math.random() > 0.5 ? '184, 153, 43' : '212, 175, 55'}, ${Math.random() * 0.5 + 0.4})`;
+    ctx.lineWidth = Math.random() * 2 + 1;
+    ctx.beginPath();
+    ctx.moveTo(x, y + height);
+    ctx.quadraticCurveTo(x + (Math.random() - 0.5) * 3, y + height * 0.6, x + (Math.random() - 0.5) * 6, y);
+    ctx.stroke();
+
+    // Add wheat heads
+    if (Math.random() > 0.4) {
+      ctx.strokeStyle = `rgba(184, 153, 43, 0.6)`;
+      ctx.lineWidth = 1.5;
+      for (let j = 0; j < 3; j++) {
+        const offsetX = (j - 1) * 2;
+        ctx.beginPath();
+        ctx.moveTo(x + offsetX, y - 2);
+        ctx.lineTo(x + offsetX - 1, y - 6);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Add shadow spots
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+  for (let i = 0; i < 8; i++) {
+    ctx.fillRect(Math.random() * 60, Math.random() * 60, Math.random() * 10 + 2, Math.random() * 10 + 2);
+  }
+
+  return canvas.toDataURL();
+};
+
 export const generateWaterTexture = (): string => {
   const canvas = document.createElement('canvas');
   canvas.width = 64;
@@ -188,6 +234,9 @@ export const getTextureDataURL = (type: string): string => {
     switch (type) {
       case 'grass':
         textureCache[type] = generateGrassTexture();
+        break;
+      case 'wheat':
+        textureCache[type] = generateWheatTexture();
         break;
       case 'water':
         textureCache[type] = generateWaterTexture();

@@ -146,6 +146,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     isGate={isGate}
                     isAccessible={isAccessible && !isEscapePath}
                     isEscapePath={isEscapePath && isHoveredOnHorse}
+                    isEnclosed={enclosed && enclosedTiles.some((t) => t.x === x && t.y === y)}
                     onClick={() => handleTileClick(x, y)}
                     onHover={(hovering) => {
                       if (isHorse) {

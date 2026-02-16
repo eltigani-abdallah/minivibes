@@ -10,6 +10,7 @@ interface TileProps {
   isGate: boolean;
   isAccessible: boolean;
   isEscapePath: boolean;
+  isEnclosed: boolean;
   onClick: () => void;
   onHover: (hovering: boolean) => void;
 }
@@ -19,6 +20,7 @@ const getTileStyle = (
   isGate: boolean,
   isAccessible: boolean,
   isEscapePath: boolean,
+  isEnclosed: boolean,
   textureDataURL: string
 ): React.CSSProperties => {
   let bgColor = '#90EE90';
@@ -38,6 +40,11 @@ const getTileStyle = (
     bgColor = '#d4f4dd';
     bgImage = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 70%)`;
     boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.3), 0 1px 2px rgba(0,0,0,0.05)';
+  } else if (isEnclosed && type === 'grass') {
+    // Grass that's inside enclosure becomes wheat
+    bgColor = '#D4AF37';
+    bgImage = `url('${textureDataURL}')`;
+    boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.1)';
   }
 
   return {
@@ -68,15 +75,27 @@ const Tile: React.FC<TileProps> = ({
   isGate,
   isAccessible,
   isEscapePath,
+  isEnclosed,
   onClick,
   onHover,
 }) => {
   const textureDataURL = useMemo(() => {
     if (isEscapePath || isAccessible) return '';
-    return getTextureDataURL(isGate ? 'gate' : type);
-  }, [type, isGate, isEscapePath, isAccessible]);
+    
+    if (isGate) {
+      return getTextureDataURL('gate');
+    }
+    
+    // If enclosed and grass, show wheat texture
+    if (isEnclosed && type === 'grass') {
+      return getTextureDataURL('wheat');
+    }
+    
+    // Otherwise use normal tile texture
+    return getTextureDataURL(type);
+  }, [type, isGate, isEscapePath, isAccessible, isEnclosed]);
 
-  const style = getTileStyle(type, isGate, isAccessible, isEscapePath, textureDataURL);
+  const style = getTileStyle(type, isGate, isAccessible, isEscapePath, isEnclosed, textureDataURL);
 
   return (
     <div
