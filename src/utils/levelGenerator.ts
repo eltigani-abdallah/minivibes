@@ -41,6 +41,9 @@ const placeWater = (grid: Grid, numWater: number, horsePos: Position): void => {
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
 
+    // Never place water on horse position
+    if (x === horsePos.x && y === horsePos.y) continue;
+
     if (grid[y][x].type === 'grass') {
       // Temporarily place water
       grid[y][x] = { type: 'water' };

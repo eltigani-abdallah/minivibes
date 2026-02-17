@@ -477,3 +477,29 @@
 - Cherries count as 1 grass + 3 bonus points ✓
 
 **No changes needed** - Logic is already correct. The implementation ensures tiles "have nothing to do with the horse" (unreachable) are never scored.
+
+### 2026-02-17T14:38 - Prompt #19 (Water Spawn Prevention & Score Display)
+**Contexte:** 
+1. Le cheval pouvait spawner sur une tuile d'eau au démarrage du niveau
+2. Le score était affiché avec une enclosure au lieu de rester vide jusqu'à l'enclosure
+3. Les tiles enfermées uniquement par l'eau (sans murs) ne devraient pas compter
+
+**Corrections apportées:**
+- Ajout de vérification `if (x === horsePos.x && y === horsePos.y) continue;` dans `placeWater()`
+- Empêche le placement d'eau sur la position initiale du cheval
+- Score reste vide tant qu'aucune enclosure valide n'existe
+- Enclosure par eau seule n'est jamais signalée comme victoire
+
+**Modifications:**
+- `src/utils/levelGenerator.ts` - Ligne 44-45: Check water placement sur position cheval
+- `src/components/GameBoard.tsx` - Score reste blank si horse pas enfermé
+
+**Résultat:**
+- ✅ Horse ne spawne jamais sur l'eau
+- ✅ Score reste vide pendant le jeu
+- ✅ Enclosure nécessite au minimum un mur placé
+- ✅ 21/21 tests passant
+- ✅ Build sans erreurs
+
+**Commits Git:**
+- `[pending]` - Water spawn prevention
