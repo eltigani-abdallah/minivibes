@@ -433,3 +433,47 @@
 - **Niveaux:** 5 levels avec progression de difficulté
 - **Gates totaux:** 6, 8, 10, 12, 14 (was 3, 4, 5, 5, 6)
 - **Temps de développement:** ~45 minutes pour phases 1-4
+
+### 2026-02-17T09:00 - Prompt #17 (Water Enclosure Fix)
+**Contexte:** Bug critique où le cheval était encerclé par l'eau seule avant le placement des murs, causant une enclosure prématurée et des tuiles marquées comme enfermées incorrectement.
+
+**Problème identifié:**
+- La fonction `isHorseEnclosed()` ne vérifiait que si le cheval pouvait atteindre les bords
+- Elle ne différenciait pas entre une enclosure causée par les murs (gates) vs uniquement par l'eau
+- Cela causait des faux positifs où l'eau seule suffisait à marquer le cheval comme enfermé
+
+**Solution implémentée:**
+- Modification de `isHorseEnclosed()` pour accepter le nombre de portes placées en paramètre
+- Ajout de condition: `if (gatesPlaced === 0) return false;`
+- Mise à jour de l'appel dans GameBoard pour passer `placedGates.size`
+- Résultat: Le cheval ne peut être enfermé que si au moins une porte a été placée
+
+**Commits Git:** `43f22c8` (Water enclosure prevention)
+
+**Résultat:** 
+- ✅ Bug corrigé - horse ne peut être enfermé que par les murs
+- ✅ Build réussit sans erreurs
+- ✅ Enclosure par eau seule n'est plus possible
+
+### 2026-02-17T09:03 - Prompt #18 (Water Tile Enclosure Verification)
+**Contexto:** User reports that water sometimes encloses tiles that have nothing to do with the horse, and those shouldn't count toward the score.
+
+**Analysis:**
+- Verified `getEnclosedTiles()` function - it correctly uses BFS from horse position
+- Only returns tiles ACCESSIBLE from the horse through grass/cherry tiles
+- Water tiles and separate enclosed regions are NOT included in score calculation
+- This is the correct behavior per specification
+
+**Code validation:**
+- `getAccessibleTiles()` does BFS starting from horsePosition
+- Stops at water tiles and gates (as barriers)
+- Returns ONLY tiles reachable from horse
+- `getEnclosedTiles()` filters these to only grass/cherry types
+- Therefore, score only includes horse's reachable enclosure
+
+**Current behavior (CORRECT):**
+- Water-enclosed separate pockets: NOT counted in score ✓
+- Only tiles horse can reach: counted in score ✓
+- Cherries count as 1 grass + 3 bonus points ✓
+
+**No changes needed** - Logic is already correct. The implementation ensures tiles "have nothing to do with the horse" (unreachable) are never scored.
