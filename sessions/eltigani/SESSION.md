@@ -328,6 +328,31 @@
 **Commits Git:**
 - `78d021f` (Increase difficulty & level design)
 
+### 2026-02-17T08:45 - Prompt #10 (Cherry Tile Color Fix)
+**Contexte:** Les tuiles cerise n'avaient pas la couleur de blé quand enfermées contrairement aux autres tuiles.
+
+**Correction:**
+- Cherry tiles now display wheat color (#D4AF37 yellow/gold) when enclosed
+- Cherry tiles use same wheat texture as grass when enclosed
+- Cherry emoji still visible on enclosed cherry tiles
+- Consistent visual feedback: all enclosed areas are wheat-colored
+
+**Modifications:**
+- `Tile.tsx` - Updated `getTileStyle()` to include cherry in enclosure check
+- `Tile.tsx` - Updated `textureDataURL` to use wheat texture for enclosed cherries
+- Both changes minimal and surgical (2 lines modified)
+
+**Résultat:**
+- ✅ Cherry tiles match visual design when enclosed
+- ✅ Consistent wheat color for all enclosed tiles
+- ✅ Cherry emoji remains visible
+- ✅ 21/21 tests passing
+- ✅ Build: 208.15 KB (65.43 KB gzip)
+- ✅ Zero errors/warnings
+
+**Commits Git:**
+- `c6a5b21` (Cherry tiles change to wheat color when enclosed)
+
 ## État Actuel
 - **Fonctionnalités complétées:**
   - ✅ Spécification complète rédigée
