@@ -1,5 +1,6 @@
 import type { GameLevel, Grid, Position, Tile } from 'src/types/game';
 import { LEVEL_CONFIGS, PORTAL_COLORS } from './constants';
+import { getAccessibleTiles } from './pathfinding';
 
 const createEmptyGrid = (width: number, height: number): Grid => {
   const grid: Grid = [];
@@ -13,18 +14,44 @@ const createEmptyGrid = (width: number, height: number): Grid => {
   return grid;
 };
 
-const placeWater = (grid: Grid, numWater: number): void => {
+const canReachEdge = (grid: Grid, horsePos: Position): boolean => {
+  const accessible = getAccessibleTiles(grid, horsePos, true);
+  const width = grid[0].length;
+  const height = grid.length;
+
+  // Check if any edge position is reachable
+  for (const key of accessible) {
+    const [x, y] = key.split(',').map(Number);
+    if (x === 0 || x === width - 1 || y === 0 || y === height - 1) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const placeWater = (grid: Grid, numWater: number, horsePos: Position): void => {
   const width = grid[0].length;
   const height = grid.length;
   let placed = 0;
+  let attempts = 0;
+  const maxAttempts = numWater * 50;
 
-  while (placed < numWater) {
+  while (placed < numWater && attempts < maxAttempts) {
+    attempts++;
     const x = Math.floor(Math.random() * width);
     const y = Math.floor(Math.random() * height);
 
     if (grid[y][x].type === 'grass') {
+      // Temporarily place water
       grid[y][x] = { type: 'water' };
-      placed++;
+      
+      // Check if horse can still reach edge
+      if (canReachEdge(grid, horsePos)) {
+        placed++;
+      } else {
+        // Revert if it blocks horse
+        grid[y][x] = { type: 'grass' };
+      }
     }
   }
 };
@@ -123,17 +150,16 @@ export const generateLevel = (levelNumber: number): GameLevel => {
   const config = LEVEL_CONFIGS[levelNumber - 1] || LEVEL_CONFIGS[0];
 
   const grid = createEmptyGrid(config.width, config.height);
+  const horsePosition = placeHorse(grid);
   
   // Significantly increased water obstacles - more aggressive difficulty scaling
   const numWater = Math.ceil(config.width * config.height * (0.28 + levelNumber * 0.05));
   const numCherries = Math.min(levelNumber + 1, 5);
   const numPortalPairs = levelNumber > 3 ? Math.floor(levelNumber / 2) : 0;
 
-  placeWater(grid, numWater);
+  placeWater(grid, numWater, horsePosition);
   placeCherries(grid, numCherries);
   placePortals(grid, numPortalPairs);
-
-  const horsePosition = placeHorse(grid);
 
   return {
     width: config.width,
