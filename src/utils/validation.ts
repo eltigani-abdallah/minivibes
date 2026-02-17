@@ -3,8 +3,14 @@ import { getAccessibleTiles } from './pathfinding';
 
 export const isHorseEnclosed = (
   grid: Grid,
-  horsePosition: Position
+  horsePosition: Position,
+  gatesPlaced: number = 0
 ): boolean => {
+  // Horse cannot be enclosed without at least one gate placed
+  if (gatesPlaced === 0) {
+    return false;
+  }
+
   const width = grid[0].length;
   const height = grid.length;
 
@@ -32,7 +38,12 @@ export const getEnclosedTiles = (
 
   for (const posKey of accessibleTiles) {
     const [x, y] = posKey.split(',').map(Number);
-    enclosed.push({ x, y });
+    const tile = grid[y][x];
+    
+    // Only count grass and cherry tiles, not water or other tile types
+    if (tile.type === 'grass' || tile.type === 'cherry') {
+      enclosed.push({ x, y });
+    }
   }
 
   return enclosed;

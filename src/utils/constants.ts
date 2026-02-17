@@ -1,7 +1,7 @@
 export const DEFAULT_GRID_WIDTH = 14;
 export const DEFAULT_GRID_HEIGHT = 14;
 export const TILE_SIZE_PX = 50;
-export const CHERRY_BONUS_POINTS = 10;
+export const CHERRY_BONUS_POINTS = 3;
 export const GRASS_POINT_VALUE = 1;
 
 export const LEVEL_CONFIGS = [

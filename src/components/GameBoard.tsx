@@ -40,7 +40,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     true
   );
 
-  const enclosed = isHorseEnclosed(gridWithGates, level.horsePosition);
+  const enclosed = isHorseEnclosed(gridWithGates, level.horsePosition, placedGates.size);
   const enclosedTiles = getEnclosedTiles(
     gridWithGates,
     level.horsePosition
@@ -202,10 +202,10 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
           <div className="border-t-2 border-gray-200 pt-4">
             <p className="text-sm text-gray-600 font-semibold mb-2">
-              ENCLOSED TILES
+              SCORE
             </p>
             <p className="text-4xl font-bold text-purple-600">
-              {enclosedTiles.length}
+              {calculateScore({ tiles: enclosedTiles, grid: gridWithGates })}
             </p>
           </div>
 

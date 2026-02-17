@@ -40,8 +40,8 @@ export const getAccessibleTiles = (
 
       const tile = grid[nextY][nextX];
 
-      // Horse cannot walk on water or cherries
-      if (tile.type === 'water' || tile.type === 'cherry') continue;
+      // Horse cannot walk on water
+      if (tile.type === 'water') continue;
       if (excludeGates && tile.type === 'gate') continue;
 
       visited.add(key);
