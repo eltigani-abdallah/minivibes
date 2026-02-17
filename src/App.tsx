@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen w-screen bg-[#90EE90] p-4">
       {/* Top Info Section */}
-      <div className="text-center mb-8 bg-white/40 backdrop-blur-sm px-6 py-4 rounded-lg shadow-md w-full">
+      <div className="text-center mb-8 bg-white/40 backdrop-blur-sm px-6 py-4 rounded-lg shadow-md w-full max-w-2xl">
         <h1 className="text-5xl font-bold text-green-800 drop-shadow-lg mb-2">
           🐴 Enclose.Horse
         </h1>
@@ -31,8 +31,8 @@ function App() {
         </p>
       </div>
 
-      {/* Center Row: Game Board | Right Info */}
-      <div className="flex items-center justify-center gap-12">
+      {/* Center: Game Board with Right Info Panel */}
+      <div className="flex items-center justify-center gap-12 flex-1">
         {/* Game Board */}
         <main className="flex items-center justify-center">
           <GameBoard
@@ -43,7 +43,7 @@ function App() {
         </main>
 
         {/* Right Info Panel */}
-        <div className="bg-white/40 backdrop-blur-sm px-6 py-6 rounded-lg shadow-md text-green-800 font-semibold w-56 h-fit">
+        <div className="bg-white/40 backdrop-blur-sm px-6 py-6 rounded-lg shadow-md text-green-800 font-semibold w-56">
           <div className="text-center space-y-4">
             <div>
               <p className="text-sm text-green-700 mb-1">INSTRUCTIONS</p>
