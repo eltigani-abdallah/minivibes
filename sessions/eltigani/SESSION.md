@@ -264,6 +264,70 @@
 **Commits Git:**
 - `e169b68` (Horse spawn & cherry fixes)
 
+### 2026-02-17T08:39 - Prompt #9 (Difficulty & Level Design)
+**Contexte:** Le jeu a trop de routes d'échappement pour le cheval. Les cerises sont une route d'échappement valide. Agrandir la grille et la centrer. Le cheval doit spawn à la même position centrale qui ne change jamais.
+
+**Améliorations principales:**
+
+**Grille Agrandie:**
+- Level 1: 12x12 (était 6x6)
+- Level 2: 14x14 (était 8x8)
+- Level 3: 14x14 (était 8x8)
+- Level 4: 16x16 (était 10x10)
+- Level 5: 16x16 (était 10x10)
+
+**Augmentation des tuiles eau:**
+- Formule: 0.28 + level * 0.05 (était 0.18 + level * 0.03)
+- Level 1: ~48 tuiles eau
+- Level 5: ~72 tuiles eau
+- Plus d'obstacles = plus difficile
+
+**Placement des cerises:**
+- Jamais sur les bords (min 1 tuile de distance)
+- Jamais sur le centre (position spawn du cheval)
+- Cerises maintenant impassables (comme l'eau)
+- Cheval ne peut pas marcher sur les cerises
+- Élimine les routes d'échappement via cerises
+
+**Distribution des portes:**
+- Level 1: 8 portes (était 6)
+- Level 2: 10 portes (était 8)
+- Level 3: 12 portes (était 10)
+- Level 4: 14 portes (était 12)
+- Level 5: 16 portes (était 14)
+
+**Position spawn du cheval:**
+- Spawn TOUJOURS au centre de la grille
+- Position centre jamais change (cohérente)
+- Grille centrée sur la page
+- Recherche concentrique depuis le centre exact
+- Garantit un jeu jouable
+
+**Mises à jour pathfinding:**
+- Cerises impassables (comme l'eau)
+- Cheval ne peut pas échapper via cerises
+- Requiert murs/portes pour enfermer
+- Tous les tests mis à jour
+
+**Tests:**
+- ✅ 21/21 tests passant
+- ✅ Cherry pathfinding test mis à jour
+- ✅ Validation test pour obstacles cerise
+- ✅ Zéro erreurs/warnings
+- ✅ TypeScript strict mode
+
+**Résultat:**
+- ✅ Grilles plus grandes (plus visibles)
+- ✅ Plus de tuiles eau (moins de routes)
+- ✅ Cerises impassables (moins d'alternatives)
+- ✅ Plus de portes (plus d'outils)
+- ✅ Gameplay équilibré et engageant
+- ✅ Cheval toujours au centre
+- ✅ Grille centrée sur la page
+
+**Commits Git:**
+- `78d021f` (Increase difficulty & level design)
+
 ## État Actuel
 - **Fonctionnalités complétées:**
   - ✅ Spécification complète rédigée
