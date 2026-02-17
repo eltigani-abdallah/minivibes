@@ -353,6 +353,40 @@
 **Commits Git:**
 - `c6a5b21` (Cherry tiles change to wheat color when enclosed)
 
+### 2026-02-17T08:50 - Prompt #11 (Cherry Background & Escape Path Line)
+**Contexte:** 
+1. Cherry tiles n'avaient pas la bonne couleur de fond quand enfermées (le fond restait la texture cerise, pas le blé)
+2. Le surbrillage d'échappement affichait TOUTES les tuiles accessibles au lieu de juste UNE ligne vers l'échappatoire
+
+**Correction Cherry Tiles:**
+- Non-enclosed cherry tiles: grass texture green (#90EE90)
+- Enclosed cherry tiles: wheat texture gold (#D4AF37)
+- Cherry emoji reste visible par-dessus
+- Cohérent avec toutes les autres tuiles
+
+**Correction Escape Path:**
+- Créé nouvelle utility `pathToEdge` avec fonction `getPathToEdge`
+- Utilise BFS pour trouver le chemin UNIQUE vers l'edge
+- Affiche seulement une ligne de route (pas toutes les tuiles accessibles)
+- Plus clair pour le joueur: montre COMMENT le cheval s'échappe
+- Aide à comprendre exactement ce qui doit être bloqué
+
+**Modifications:**
+- `src/components/Tile.tsx` - Logique styling séparée pour cherries
+- `src/hooks/useHorseEscape.ts` - Changé pour utiliser `getPathToEdge`
+- `src/utils/pathToEdge.ts` - NOUVEAU: Utility pour trouver chemin vers edge
+
+**Résultat:**
+- ✅ Cherry tiles affichent bon fond (vert non-enclosed, or enclosed)
+- ✅ Cherry emoji reste visible
+- ✅ Escape path affiche 1 ligne (pas tout le grid)
+- ✅ Meilleure compréhension du jeu
+- ✅ 21/21 tests passing
+- ✅ Build: 208.92 KB (65.68 KB gzip)
+
+**Commits Git:**
+- `4fc934b` (Cherry tile background & escape path visualization)
+
 ## État Actuel
 - **Fonctionnalités complétées:**
   - ✅ Spécification complète rédigée
