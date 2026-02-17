@@ -31,34 +31,29 @@ function App() {
         </p>
       </div>
 
-      {/* Center: Game Board with Right Info Panel */}
-      <div className="flex items-center justify-center gap-12 flex-1">
-        {/* Game Board */}
-        <main className="flex items-center justify-center">
-          <GameBoard
-            level={level}
-            onNextLevel={handleNextLevel}
-            onResetLevel={handleResetLevel}
-          />
-        </main>
+      {/* Instructions Above Game */}
+      <div className="bg-white/40 backdrop-blur-sm px-6 py-4 rounded-lg shadow-md text-green-800 font-semibold mb-6 w-full max-w-2xl text-center">
+        <p className="text-sm text-green-700 mb-1">INSTRUCTIONS</p>
+        <p className="text-xs leading-relaxed text-green-700">
+          Place gates strategically to enclose the horse. Hover over 🐴 to see escape routes.
+        </p>
+      </div>
 
-        {/* Right Info Panel */}
-        <div className="bg-white/40 backdrop-blur-sm px-6 py-6 rounded-lg shadow-md text-green-800 font-semibold w-56">
-          <div className="text-center space-y-4">
-            <div>
-              <p className="text-sm text-green-700 mb-1">INSTRUCTIONS</p>
-              <p className="text-xs leading-relaxed text-green-700">
-                Place gates strategically to enclose the horse. Hover over 🐴 to see escape routes.
-              </p>
-            </div>
-            <div className="border-t border-white/20 pt-4">
-              <p className="text-sm text-green-700 mb-1">TIPS</p>
-              <p className="text-xs leading-relaxed text-green-700">
-                Cherries increase your score. Water blocks the horse. Watch for portal pairs!
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Center: Game Board */}
+      <main className="flex items-center justify-center mb-6">
+        <GameBoard
+          level={level}
+          onNextLevel={handleNextLevel}
+          onResetLevel={handleResetLevel}
+        />
+      </main>
+
+      {/* Tips Below Game */}
+      <div className="bg-white/40 backdrop-blur-sm px-6 py-4 rounded-lg shadow-md text-green-800 font-semibold w-full max-w-2xl text-center">
+        <p className="text-sm text-green-700 mb-1">TIPS</p>
+        <p className="text-xs leading-relaxed text-green-700">
+          Cherries increase your score. Water blocks the horse. Watch for portal pairs!
+        </p>
       </div>
     </div>
   );
