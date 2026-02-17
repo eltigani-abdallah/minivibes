@@ -205,7 +205,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
               SCORE
             </p>
             <p className="text-4xl font-bold text-purple-600">
-              {calculateScore({ tiles: enclosedTiles, grid: gridWithGates })}
+              {enclosed ? calculateScore({ tiles: enclosedTiles, grid: gridWithGates }) : '-'}
             </p>
           </div>
 
