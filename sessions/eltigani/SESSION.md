@@ -220,6 +220,50 @@
 **Commits Git:**
 - `7bed08b` (Tile rendering & cherry fixes)
 
+### 2026-02-17T00:03 - Prompt #8 (Horse Spawn & Cherry Fixes)
+**Contexte:** Le cheval spawn parfois sur le bord du niveau le rendant impossible à résoudre. Les cerises affichent parfois deux emojis sur la même tuile. Les cerises doivent contribuer au score final.
+
+**Problèmes corrigés:**
+- ❌ Cheval spawning sur les bords (niveau impossible)
+- ❌ Cerises dupliquées sur une même tuile
+- ❌ Clarification du scoring des cerises
+
+**Améliorations réalisées:**
+- ✅ Cheval spawn TOUJOURS au centre du niveau
+  - Recherche spirale concentrique depuis le centre
+  - Expansion progressive depuis le centre
+  - Jamais sur les bords
+  - Rayon de recherche: min(largeur, hauteur) / 4
+- ✅ Affichage des cerises - une seule par tuile
+  - Texture cerise = texture herbe (sans cerise dessinée)
+  - Emoji cerise affiché en overlay (zIndex: 9)
+  - Plus de duplication visuelle
+- ✅ Scoring des cerises confirmé
+  - Points base: 1 point par cerise (herbe)
+  - Bonus: 10 points par cerise
+  - Total: 11 points par cerise enfermée
+  - Scoring déjà implémenté, maintenant visuel
+
+**Implémentation technique:**
+- placeHorse() uses concentric square search algorithm
+- Recherche des carrés concentriques depuis le centre
+- Garantit placement central quand possible
+- Fallback: centre exact si pas d'herbe trouvée
+- Cherry texture: uniquement herbe (pas de cerise dessinée)
+- Cherry display: emoji seulement (pas de duplication texture)
+- Scoring.ts: déjà correct, juste vérifié
+
+**Résultat:**
+- ✅ Cheval spawne toujours au centre playable
+- ✅ Pas plus de niveaux impossibles (spawn bord)
+- ✅ Une seule cerise par tuile (pas duplicata)
+- ✅ Cerises contribuent au score final
+- ✅ Tous les tests passent (21/21)
+- ✅ Gameplay équilibré et juste
+
+**Commits Git:**
+- `e169b68` (Horse spawn & cherry fixes)
+
 ## État Actuel
 - **Fonctionnalités complétées:**
   - ✅ Spécification complète rédigée
