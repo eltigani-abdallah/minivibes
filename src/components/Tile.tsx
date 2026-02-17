@@ -42,7 +42,7 @@ const getTileStyle = (
     bgImage = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 70%), url('${textureDataURL}')`;
     boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.3), 0 1px 2px rgba(0,0,0,0.05)';
     backgroundSize = 'auto, 64px 64px';
-  } else if (isEnclosed && type === 'grass') {
+  } else if (isEnclosed && (type === 'grass' || type === 'cherry')) {
     bgColor = '#D4AF37';
     bgImage = `url('${textureDataURL}')`;
     boxShadow = 'inset 0 1px 2px rgba(255,255,255,0.4), 0 1px 3px rgba(0,0,0,0.1)';
@@ -93,7 +93,7 @@ const Tile: React.FC<TileProps> = ({
       return getTextureDataURL('gate');
     }
     
-    if (isEnclosed && type === 'grass') {
+    if (isEnclosed && (type === 'grass' || type === 'cherry')) {
       return getTextureDataURL('wheat');
     }
     
