@@ -32,11 +32,17 @@ const placeWater = (grid: Grid, numWater: number): void => {
 const placeCherries = (grid: Grid, numCherries: number): void => {
   const width = grid[0].length;
   const height = grid.length;
+  const centerX = Math.floor(width / 2);
+  const centerY = Math.floor(height / 2);
   let placed = 0;
 
   while (placed < numCherries) {
-    const x = Math.floor(Math.random() * width);
-    const y = Math.floor(Math.random() * height);
+    // Never place on edges - only in interior (at least 1 tile away from edge)
+    const x = Math.floor(Math.random() * (width - 2)) + 1;
+    const y = Math.floor(Math.random() * (height - 2)) + 1;
+
+    // Never place on center (where horse spawns)
+    if (x === centerX && y === centerY) continue;
 
     if (grid[y][x].type === 'grass') {
       grid[y][x] = { type: 'cherry' };
@@ -118,8 +124,8 @@ export const generateLevel = (levelNumber: number): GameLevel => {
 
   const grid = createEmptyGrid(config.width, config.height);
   
-  // Significantly increased water obstacles for balanced difficulty
-  const numWater = Math.ceil(config.width * config.height * (0.18 + levelNumber * 0.03));
+  // Significantly increased water obstacles - more aggressive difficulty scaling
+  const numWater = Math.ceil(config.width * config.height * (0.28 + levelNumber * 0.05));
   const numCherries = Math.min(levelNumber + 1, 5);
   const numPortalPairs = levelNumber > 3 ? Math.floor(levelNumber / 2) : 0;
 

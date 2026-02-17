@@ -82,7 +82,7 @@ describe('Validation - Enclosure Detection', () => {
     expect(result).toBe(false);
   });
 
-  it('should handle cherry tiles in enclosure correctly', () => {
+  it('should handle cherry tiles as impassable obstacles', () => {
     const grid: Grid = [
       [{ type: 'water' }, { type: 'water' }, { type: 'water' }],
       [{ type: 'water' }, { type: 'grass' }, { type: 'water' }],
@@ -90,9 +90,8 @@ describe('Validation - Enclosure Detection', () => {
     ];
 
     const result = getEnclosedTiles(grid, { x: 1, y: 1 });
-    // Horse at (1,1) can reach (1,1) and (1,2) since cherry is passable
-    expect(result.length).toBe(2);
+    // Horse at (1,1) can only reach (1,1) since cherry blocks the path
+    expect(result.length).toBe(1);
     expect(result).toContainEqual({ x: 1, y: 1 });
-    expect(result).toContainEqual({ x: 1, y: 2 });
   });
 });

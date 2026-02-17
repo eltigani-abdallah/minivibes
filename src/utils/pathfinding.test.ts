@@ -60,7 +60,7 @@ describe('Pathfinding - BFS Algorithm', () => {
     expect(result.size).toBeLessThan(9);
   });
 
-  it('should handle cherry tiles as passable', () => {
+  it('should treat cherry tiles as impassable obstacles', () => {
     const grid: Grid = [
       [{ type: 'grass' }, { type: 'cherry' }],
       [{ type: 'grass' }, { type: 'grass' }],
@@ -68,8 +68,12 @@ describe('Pathfinding - BFS Algorithm', () => {
 
     const result = getAccessibleTiles(grid, { x: 0, y: 0 }, true);
 
-    expect(result.size).toBe(4);
-    expect(result.has('1,0')).toBe(true);
+    // Horse at (0,0) can reach (0,0), (0,1), (1,1) but not (1,0) due to cherry blocking
+    expect(result.size).toBe(3);
+    expect(result.has('0,0')).toBe(true);
+    expect(result.has('0,1')).toBe(true);
+    expect(result.has('1,1')).toBe(true);
+    expect(result.has('1,0')).toBe(false);
   });
 
   it('should handle L-shaped movement pattern', () => {
