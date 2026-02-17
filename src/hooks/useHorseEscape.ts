@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { Position, Grid } from 'src/types/game';
-import { getAccessibleTiles } from 'src/utils/pathfinding';
+import { getPathToEdge } from 'src/utils/pathToEdge';
 
 interface UseHorseEscapeProps {
   grid: Grid;
@@ -18,12 +18,12 @@ export const useHorseEscape = ({
 
   useEffect(() => {
     if (isHoveredOnHorse) {
-      const accessible = getAccessibleTiles(
+      const path = getPathToEdge(
         grid,
-        horsePosition,
-        true
+        horsePosition
       );
-      setEscapePath(accessible);
+      const pathSet = new Set(path.map(p => `${p.x},${p.y}`));
+      setEscapePath(pathSet);
     } else {
       setEscapePath(new Set());
     }
