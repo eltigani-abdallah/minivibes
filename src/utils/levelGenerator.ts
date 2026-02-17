@@ -89,17 +89,28 @@ const placeHorse = (grid: Grid): Position => {
   const width = grid[0].length;
   const height = grid.length;
 
-  let placed = false;
-  while (!placed) {
-    const x = Math.floor(Math.random() * width);
-    const y = Math.floor(Math.random() * height);
-
-    if (grid[y][x].type === 'grass') {
-      return { x, y };
+  const centerX = Math.floor(width / 2);
+  const centerY = Math.floor(height / 2);
+  
+  // Try to place in center area first (within 1-2 tiles of center)
+  const searchRadius = Math.max(1, Math.floor(Math.min(width, height) / 4));
+  
+  for (let radius = 0; radius <= searchRadius; radius++) {
+    for (let dx = -radius; dx <= radius; dx++) {
+      for (let dy = -radius; dy <= radius; dy++) {
+        if (Math.abs(dx) !== radius && Math.abs(dy) !== radius && radius > 0) continue;
+        
+        const x = centerX + dx;
+        const y = centerY + dy;
+        
+        if (x >= 0 && x < width && y >= 0 && y < height && grid[y][x].type === 'grass') {
+          return { x, y };
+        }
+      }
     }
   }
 
-  return { x: Math.floor(width / 2), y: Math.floor(height / 2) };
+  return { x: centerX, y: centerY };
 };
 
 export const generateLevel = (levelNumber: number): GameLevel => {

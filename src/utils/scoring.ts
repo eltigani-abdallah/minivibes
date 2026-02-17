@@ -16,6 +16,7 @@ export const calculateScore = (enclosureInfo: EnclosureInfo): number => {
     if (tile.type === 'grass') {
       basePoints += GRASS_POINT_VALUE;
     } else if (tile.type === 'cherry') {
+      // Cherries count as grass tile + bonus
       basePoints += GRASS_POINT_VALUE;
       cherryCount += 1;
     }

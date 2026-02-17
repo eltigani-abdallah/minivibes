@@ -156,35 +156,29 @@ export const generateCherryTexture = (): string => {
   canvas.height = 64;
   const ctx = canvas.getContext('2d')!;
 
-  // Base grass
+  // Base grass only - emoji will display on top
   ctx.fillStyle = '#7CCD7C';
   ctx.fillRect(0, 0, 64, 64);
 
-  // Draw cherry (simple circle)
-  ctx.fillStyle = '#E63946';
-  ctx.beginPath();
-  ctx.arc(32, 24, 12, 0, Math.PI * 2);
-  ctx.fill();
+  // Add grass blades (same as grass texture)
+  for (let i = 0; i < 40; i++) {
+    const x = Math.random() * 64;
+    const y = Math.random() * 64;
+    const height = Math.random() * 8 + 4;
 
-  // Cherry highlight
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-  ctx.beginPath();
-  ctx.arc(28, 20, 4, 0, Math.PI * 2);
-  ctx.fill();
+    ctx.strokeStyle = `rgba(${Math.random() > 0.5 ? '76, 169, 68' : '102, 194, 92'}, ${Math.random() * 0.4 + 0.3})`;
+    ctx.lineWidth = Math.random() * 1.5 + 0.5;
+    ctx.beginPath();
+    ctx.moveTo(x, y + height);
+    ctx.lineTo(x + (Math.random() - 0.5) * 4, y);
+    ctx.stroke();
+  }
 
-  // Stem
-  ctx.strokeStyle = '#2D5016';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(32, 24);
-  ctx.lineTo(32, 10);
-  ctx.stroke();
-
-  // Leaf
-  ctx.fillStyle = '#4CAF50';
-  ctx.beginPath();
-  ctx.ellipse(42, 12, 8, 5, Math.PI / 4, 0, Math.PI * 2);
-  ctx.fill();
+  // Add some darker spots for shadow
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  for (let i = 0; i < 10; i++) {
+    ctx.fillRect(Math.random() * 60, Math.random() * 60, Math.random() * 8 + 2, Math.random() * 8 + 2);
+  }
 
   return canvas.toDataURL();
 };
